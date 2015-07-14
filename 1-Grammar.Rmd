@@ -1,7 +1,7 @@
 ---
 title: "Grammar of Graphics"
 author: "Amit Kapoor"
-date: "13 June 2014"
+date: "13 July 2015"
 output: html_document
 ---
 ```{r setup, include=FALSE}
@@ -11,7 +11,7 @@ library(grid)
 library(ggplot2)
 library(gridExtra)
 
-theme_black <- function(base_size = 12, base_family = "Helvetica") {
+theme_black <- function(base_size = 16, base_family = "Helvetica") {
     theme(
     line =  element_line(colour = "black", size = 0.5, linetype = 1,
                             lineend = "butt"),
@@ -20,14 +20,14 @@ theme_black <- function(base_size = 12, base_family = "Helvetica") {
                   colour = "black", size = base_size,
                   hjust = 0.5, vjust = 0.5, angle = 0, lineheight = 0.9),
     
-    axis.text =          element_text(size = rel(0.8), colour = "grey50"),
-    strip.text =         element_text(size = rel(0.8), colour = "grey50"),
+    axis.text =          element_text(size = rel(0.8), colour = "grey70"),
+    strip.text =         element_text(size = rel(0.8), colour = "grey70"),
 
-    axis.line =          element_line(colour = "grey50"),
+    axis.line =          element_line(colour = "grey70"),
     axis.text.x =        element_text(vjust = 1),
     axis.text.y =        element_text(hjust = 1),
-    axis.ticks =         element_line(colour = "grey50", size = 0.2),
-    axis.title =         element_text(colour = "grey50"),
+    axis.ticks =         element_line(colour = "grey70", size = 0.2),
+    axis.title =         element_text(colour = "grey70"),
     axis.title.x =       element_blank(),
     axis.title.y =       element_blank(),
   # axis.title.x =       element_text(vjust = 1),
@@ -105,7 +105,7 @@ ggplot(humble, aes(x = "", fill = areas, weight = sales)) +
 ## Point - Cartesian (pc)
 ```{r humble-point, echo=FALSE}
 pc <- ggplot(humble, aes(areas,sales, color = areas)) +
-  geom_point(size = 4) +
+  geom_point(size = 6) +
   ylim(0, 25) +
   theme_black()
 pc
@@ -244,338 +244,26 @@ wpy
 humble_plots_cart <- arrangeGrob(pc, lc, bc, sc, wc,
                               ncol=3, nrow =2)
 humble_plots_cart
-ggsave(humble_plots_cart, file="humble_plots_cart.png")
+ggsave(humble_plots_cart, file="img/humble_plots_cart.png",
+       width = 16, height = 8.5 )
 
 humble_plots_flip <- arrangeGrob(pf, lf, bf, sf, wf,
                                  ncol=3, nrow =2)
 humble_plots_flip
-ggsave(humble_plots_flip, file="humble_plots_flip.png")
+ggsave(humble_plots_flip, file="img/humble_plots_flip.png",
+       width = 16, height = 8.5 )
 
 humble_plots_polar_x <- arrangeGrob(ppx, lpx, bpx, spx, wpx,
                        ncol=3, nrow =2)
 humble_plots_polar_x
-ggsave(humble_plots_polar_x, file="humble_plots_polar_x.png")
+ggsave(humble_plots_polar_x, file="img/humble_plots_polar_x.png",
+       width = 16, height = 8.5 )
 
 humble_plots_polar_y <- arrangeGrob(ppy, lpy, bpy, spy, wpy,
                        ncol=3, nrow =2)
 humble_plots_polar_y
-ggsave(humble_plots_polar_y, file="humble_plots_polar_y.png")
+ggsave(humble_plots_polar_y, file="img/humble_plots_polar_y.png",
+       width = 16, height = 8.5 )
 ```
 
-
-
-## Plotting Two Variables
-```{r legend-theme}
-theme_legend <- theme_black() + theme(legend.position = "right",
-                   axis.title.x = element_text(vjust = 0.5), 
-                    axis.title.y = element_text(angle = 90))
-```
-
-
-
-## Point - Color - Cartesian (phc)
-```{r h-point-color, echo=FALSE}
-pcc <- ggplot(humble, aes(areas, sales, color = profit/sales)) +
-  geom_point(size = 5) +
-  theme_legend
-pcc
-```
-
-
-## Line - Color - Cartesian (lhc)
-```{r h-line-color, echo=FALSE}
-lcc <- ggplot(humble, aes(areas, weight = sales, fill = profit/sales)) +
-  geom_bar(width = 0.1)  +
-  theme_legend
-lcc
-```
-
-## Bar - Color - Cartesian (bhc)
-```{r h-bar-color, echo=FALSE}
-bcc <- ggplot(humble, aes(areas, weight = sales, fill = profit/sales)) +
-  geom_bar()  +
-  theme_legend
-bcc
-```
-
-## Bar Stacked - Color - Cartesian (scc)
-```{r h-bar-stacked-color, echo=FALSE}
-scc <- ggplot(humble, aes("", fill = profit/sales, color = areas)) + 
-   geom_rect(aes(x = "sales",
-   xmin = 1 - 0.1, xmax = 1 + 0.1, ymin = end_sales, 
-   ymax = start_sales)) +
-   theme_legend
-scc
-```
-
-## Bar Waterfall - Color - Cartesian (wcc)
-``` {r h-bar-waterfall-color, echo=FALSE}
-wcc <- ggplot(humble, aes(areas, fill = profit/sales)) + 
-   geom_rect(aes(x = areas,
-   xmin = id - 0.5, xmax = id + 0.5, ymin = end_sales, 
-   ymax = start_sales)) +
-   theme_legend
-wcc
-```
-
-## Point - Color - Cartesian Flip (pcf)
-```{r h-point-color-flip, echo=FALSE}
-pcf <- pcc + coord_flip()
-pcf
-```
-
-## Line - Color - Cartesian Flip (lf)
-```{r h-line-color-flip, echo=FALSE}
-lcf <- lcc + coord_flip()
-lcf
-```
-
-## Bar - Color - Cartesian Flip (bf)
-```{r h-bar-color-flip, echo=FALSE}
-bcf <- bcc + coord_flip()
-bcf
-```
-
-## Bar Stacked - Color - Cartesian Flip (sf)
-```{r h-bar-stacked-color-flip, echo=FALSE}
-scf <- scc + coord_flip()
-scf
-```
-
-## Bar Waterfall - Cartesian Flip (wf)
-``` {r h-bar-waterfall-color-flip, echo=FALSE}
-wcf <- wcc + coord_flip()
-wcf
-```
-
-
-## Point - Color - Polar - x (pcpx)
-```{r h-point-color-polar-x, echo=FALSE}
-pcpx <- pcc + coord_polar(theta = "x")
-pcpx
-```
-
-## Line - Color - Polar -x (lcpx)
-```{r h-line-color-polar-x, echo=FALSE}
-lcpx <- lcc + coord_polar(theta ="x")
-lcpx
-```
-
-## Bar - Color - Polar - x (bcpx)
-```{r h-bar-color-polar-x, echo=FALSE}
-bcpx <- bcc + geom_bar(width=1) + coord_polar(theta ="x")
-bcpx
-```
-
-## Bar Stacked - Color - Polar - x (scpx)
-```{r h-bar-stacked-color-polar-x, echo=FALSE}
-scpx <- ggplot(humble, aes("", fill = profit/sales, 
-                                  color = areas)) + 
-   geom_rect(aes(x = "sales",
-   xmin = 1 - 0.5, xmax = 1 + 0.5, ymin = end_sales, 
-   ymax = start_sales)) +
-   theme_legend + 
-   coord_polar(theta ="x")
-scpx
-```
-
-## Bar Waterfall - Color - Polar - x (wcpx)
-``` {r h-bar-waterfall-color-polar-x, echo=FALSE}
-wcpx <- wcc + coord_polar(theta ="x")
-wcpx
-```
-
-
-## Point - Color - Polar - y (pcpy)
-```{r h-point-color-polar-y, echo=FALSE}
-pcpy <- pcc + coord_polar(theta ="y")
-pcpy
-```
-
-## Line - Color - Polar - y (lcpy)
-```{r h-line-color-polar-y, echo=FALSE}
-lcpy <- lcc + coord_polar(theta ="y")
-lcpy
-```
-
-## Bar - Color - Polar - y (bcpy)
-```{r h-bar-color-polar-y, echo=FALSE}
-bcpy <- bcc + geom_bar(width=1) + coord_polar(theta ="y")
-bcpy
-```
-
-## Bar Stacked - Color - Polar - y (scpy)
-```{r h-bar-stacked-color-polar-y, echo=FALSE}
-scpy <- ggplot(humble, aes("", fill = profit/sales, 
-                                  color = areas)) + 
-   geom_rect(aes(x = "sales",
-   xmin = 1 - 0.5, xmax = 1 + 0.5, ymin = end_sales, 
-   ymax = start_sales)) +
-   theme_legend + 
-   coord_polar(theta ="y")
-scpy
-```
-
-## Bar Waterfall - Color - Polar - y (wcpy)
-``` {r h-bar-waterfall-color-polar-y, echo=FALSE}
-wcpy <- wcc + coord_polar(theta ="y")
-wcpy
-```
-
-
-
-
-
-
-## Point - Scatter - Color - Cartesian (pscc)
-```{r h-point-scatter-color, echo=FALSE}
-pscc <- ggplot(humble, aes(sales, profit, color = profit/sales)) +
-  geom_point(size = 5) +
-  theme_legend
-pscc
-```
-
-## Point - Scatter - Color - flip (pscf)
-```{r h-point-scatter-color-flip, echo=FALSE}
-pscf <- pscc + coord_flip()
-pscf
-```
-
-## Point - Scatter - Color - Polar-Y (pscpy)
-```{r h-point-scatter-color-polar-y, echo=FALSE}
-pscpy <- pscc + coord_polar(theta ="y")
-pscpy
-```
-
-## Point - Scatter - Color - Polar-X (pscpc)
-```{r h-point-scatter-color-polar-x, echo=FALSE}
-pscpx <- pscc + coord_polar(theta ="x")
-pscpx
-```
-
-
-## Point - Scatter - Size - Cartesian (pssc)
-```{r h-point-scatter-size, echo=FALSE}
-pssc <- ggplot(humble, aes(sales, profit, color = areas,
-                          size = profit/sales)) +
-  geom_point() + scale_size_continuous(limits=c(0.2,0.5)) +
-  theme_legend 
-pssc
-```
-
-## Point - Scatter - Size - flip (pssf)
-```{r h-point-scatter-size-flip, echo=FALSE}
-pssf <- pssc + coord_flip()
-pssf
-```
-
-## Point - Scatter - Size - polar-y (psspy)
-```{r h-point-scatter-size-polar-y, echo=FALSE}
-psspy <- pssc + coord_polar(theta = "y")
-psspy
-```
-
-## Point - Scatter - Size - flip (psspx)
-```{r h-point-scatter-size-polar-x, echo=FALSE}
-psspx <- pssc + coord_polar(theta = "x")
-psspx
-```
-
-
-## Bar - multiple - Cartesian (bmc)
-```{r h-bar-multiple, echo=FALSE}
-library(reshape)
-humble.long = melt(humble.base, id.vars=c("areas"))
-bmc <- ggplot(humble.long, aes(areas, weight = value,
-                               fill = variable)) +
-  geom_bar(position="dodge")  + ylab("value") +
-  theme_legend
-bmc
-```
-
-## Bar - multiple - Cartesian - Flip (bmf)
-```{r h-bar-multiple-flip, echo=FALSE}
-bmf <- bmc + coord_flip()
-bmf
-```
-
-## Bar - multiple - polar - y (bmf)
-```{r h-bar-multiple-polar-y, echo=FALSE}
-bmpy <- bmc + coord_polar(theta="y")
-bmpy
-```
-
-
-## Bar - multiple - polar - x (bmf)
-```{r h-bar-multiple-polar-x, echo=FALSE}
-bmpy <- bmc + coord_polar(theta="x")
-bmpy
-```
-
-## Bar - multiple - identity Cartesian (bmic)
-```{r h-bar-multiple-id, echo=FALSE}
-bmic <- ggplot(humble.long, aes(areas, weight = value,
-                               fill = variable)) +
-  geom_bar(position="identity", width = 1, alpha = 0.5)  + ylab("value") +
-  theme_legend
-bmic
-```
-
-## Bar - multiple - Cartesian - Flip (bmif)
-```{r h-bar-multiple-id-flip, echo=FALSE}
-bmif <- bmic + coord_flip()
-bmif
-```
-
-## Bar - multiple - polar - y (bmipx)
-```{r h-bar-multiple-id-polar-y, echo=FALSE}
-bmipy <- bmic + coord_polar(theta="y")
-bmipy
-```
-
-
-## Bar - multiple - polar - x (bmipx)
-```{r h-bar-multiple-id-polar-x, echo=FALSE}
-bmipy <- bmic + coord_polar(theta="x")
-bmipy
-```
-
-## Bar - point - identity - Cartesian (bpmc)
-```{r h-bar-point-multiple, echo=FALSE}
-bpmc <- ggplot(humble) +
-  geom_bar(aes(areas, weight = sales, fill = areas), alpha = 1) +
-  geom_point(aes(areas, profit, fill = areas), size = 5) + ylab("values") +
-  theme_legend
-bpmc
-```
-
-## Bar - multiple - Cartesian - Flip (bmif)
-```{r h-bar-point-multiple-flip, echo=FALSE}
-bpmf <- bpmc + coord_flip()
-bpmf
-```
-
-## Bar - multiple - polar - y (bmipx)
-```{r h-bar-point-multiple-polar-y, echo=FALSE}
-bpmpy <- bpmc + coord_polar(theta="y")
-bpmpy
-```
-
-
-## Bar - multiple - polar - x (bmipx)
-```{r h-bar-point-multiple-polar-x, echo=FALSE}
-bpmpy <- bpmc + coord_polar(theta="x")
-bpmpy
-```
-
-## Point - size - color - map (pscm)
-```{r h-point-size-color, echo=FALSE}
-
-pscm <- ggplot(humble.map, aes(lat,long, color = profit/sales,
-                               size = sales)) + 
-  geom_point() + scale_size(range = c(5, 25)) + 
-  xlim (-2,2) + ylim(-2,2) +
-  theme_legend
-pscm
-```
 

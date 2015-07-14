@@ -12,7 +12,7 @@ library(grid)
 library(ggplot2)
 library(gridExtra)
 
-theme_black <- function(base_size = 12, base_family = "Helvetica") {
+theme_black <- function(base_size = 16, base_family = "Helvetica") {
     theme(
     line =  element_line(colour = "black", size = 0.5, linetype = 1,
                             lineend = "butt"),
@@ -21,14 +21,14 @@ theme_black <- function(base_size = 12, base_family = "Helvetica") {
                   colour = "black", size = base_size,
                   hjust = 0.5, vjust = 0.5, angle = 0, lineheight = 0.9),
     
-    axis.text =          element_text(size = rel(0.8), colour = "grey50"),
-    strip.text =         element_text(size = rel(0.8), colour = "grey50"),
+    axis.text =          element_text(size = rel(0.8), colour = "grey70"),
+    strip.text =         element_text(size = rel(0.8), colour = "grey70"),
 
-    axis.line =          element_line(colour = "grey50"),
+    axis.line =          element_line(colour = "grey70"),
     axis.text.x =        element_text(vjust = 1),
     axis.text.y =        element_text(hjust = 1),
-    axis.ticks =         element_line(colour = "grey50", size = 0.2),
-    axis.title =         element_text(colour = "grey50"),
+    axis.ticks =         element_line(colour = "grey70", size = 0.2),
+    axis.title =         element_text(colour = "grey70"),
     axis.title.x =       element_blank(),
     axis.title.y =       element_blank(),
   # axis.title.x =       element_text(vjust = 1),
@@ -72,15 +72,72 @@ attr(theme_black(), "complete")
 
 ```
 
-## Load the Humble Data
+## Create the Biggish Data 
 ```{r, echo=FALSE}
-x <- rnorm(10000, mean=0, sd=1)
-y <- rnorm(10000, mean=0, sd=1)
-xy <- as.data.frame(c(x,y))
-ggplot(xy) + aes(x,y) + 
-  geom_point(color = "orange", alpha = 0.3) + theme_black()
-
-
-ggplot(xy) + aes(x,y) + stat_binhex() + theme_black()
-                     
+x <- rnorm(1000000, mean=0, sd=2)
+y <- rnorm(1000000, mean=0, sd=2)
+xy <- data.frame(x,y)
 ```
+
+## Plot Data, Sample, Model, Binning
+
+```{r}
+# All the Data
+graphData <- ggplot(xy) + aes(x,y) +
+  geom_point(color = "orange", alpha = 0.2) +
+  scale_x_continuous(limits=c(-4,4)) +
+  scale_y_continuous(limits=c(-4,4)) +
+  theme_black()
+
+# Sample the Data
+library(dplyr)
+xysample <- sample_n(xy, 5000)
+graphSample <- ggplot(xysample) + aes(x,y) + 
+  geom_point(color = "orange", alpha = 0.2) +
+  scale_x_continuous(limits=c(-4,4)) +
+  scale_y_continuous(limits=c(-4,4)) +
+  theme_black()
+
+# Model the data
+graphModel <- ggplot(xy) + aes(x,y) + 
+  geom_density2d(color = "orange") +
+  scale_x_continuous(limits=c(-4,4)) +
+  scale_y_continuous(limits=c(-4,4)) +
+  theme_black()
+
+# Bin the data
+graphBin <-ggplot(xy) + aes(x,y) +  geom_bin2d(bins = 30)  + 
+  scale_fill_gradient( low="gray10", high ="orange", space = "Lab") +
+  scale_x_continuous(limits=c(-4,4)) +
+  scale_y_continuous(limits=c(-4,4)) +
+  theme_black()
+
+# Arrange
+graphBig <- arrangeGrob(graphData, graphSample, graphBin, graphModel,
+                              ncol=2, nrow =2)
+graphBig
+ggsave("img/bigdataviz.png", graphBig, width = 10, height = 10)
+```
+
+## Take another sample from bigvis package
+
+```{r}
+library(bigvis)
+library(ggplot2)
+
+Nbin <- 1e4
+binData <- with(movies, condense(bin(length, find_width(length, Nbin)),
+                                 bin(rating, find_width(rating, Nbin))))
+mplot <- ggplot(binData) + aes(length, rating, fill= .count) +
+  geom_tile() + theme_black()
+mplot
+
+# Remove outliers
+mplot %+% peel(binData)
+
+```
+
+
+
+
+
