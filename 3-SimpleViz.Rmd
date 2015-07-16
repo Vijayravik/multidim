@@ -15,9 +15,6 @@ library(gridExtra)
 set.seed(300)
 dsmall <- diamonds[sample(nrow(diamonds), 50), ]
 dlarge <- diamonds[sample(nrow(diamonds), 500),]
-
-write.table(dlarge, file = "dlarge.csv", 
-            sep=",", quote=FALSE, row.names = FALSE)
   
 theme_black_clean <- function(base_size = 16, base_family = "Helvetica") {
     theme(
@@ -29,7 +26,7 @@ theme_black_clean <- function(base_size = 16, base_family = "Helvetica") {
                   hjust = 0.5, vjust = 0.5, angle = 0, lineheight = 0.9),
     
     axis.text =          NULL,
-    strip.text =         element_text(size = rel(0.8), colour = "grey70"),
+    strip.text =         NULL,
 
     axis.line =          element_line(colour = "grey70"),
     axis.text.x =        element_text(vjust = 1),
@@ -81,9 +78,11 @@ attr(theme_black_clean(), "complete")
 
 ```{r dist-single-point , echo=FALSE}
 dsp <- ggplot(dsmall, aes("price", price)) + 
-  geom_point(size = 2, color = I('orange')) + coord_flip() +
+  geom_point(size = 10, color = I('orange'), alpha = 0.5) + 
+  coord_flip() +
   theme_black_clean()
 dsp
+ggsave("img/dsp.png", dsp, width = 4, height = 2.25, unit = "in")
 ```
 
 
@@ -91,11 +90,13 @@ dsp
 
 ```{r dist-single-point-jitter , echo=FALSE}
 dspj <- ggplot(dsmall, aes("price", price)) + 
-  geom_point(size = 2, color = I('orange'), 
+  geom_point(size = 2, color = I('orange'), alpha = 0.8,
               position = position_jitter(w = 0.2)) +
   coord_flip() +
   theme_black_clean()
 dspj
+ggsave("img/dspj.png", dspj, width = 4, height = 2.25, unit = "in")
+
 ```
 
 
@@ -106,6 +107,8 @@ dsh <- ggplot(diamonds, aes(price)) +
   geom_histogram(binwidth = 500, fill = "orange") +
   theme_black_clean() 
 dsh
+ggsave("img/dsh.png", dsh, width = 4, height = 2.25, unit = "in")
+
 ```
 
 
@@ -116,6 +119,8 @@ dsf <- ggplot(diamonds, aes(price)) +
   geom_freqpoly(color = I('orange'), binwidth = 50) +
   theme_black_clean()
 dsf
+ggsave("img/dsf.png", dsf, width = 4, height = 2.25, unit = "in")
+
 ```
 
 
@@ -126,6 +131,9 @@ dsd <- ggplot(diamonds, aes(price)) +
   geom_density(color = I('orange'), fill = I('orange'), alpha = 0.4) +
   theme_black_clean()
 dsd
+ggsave("img/dsd.png", dsd, width = 4, height = 2.25, unit = "in")
+
+
 ```
 
 
@@ -146,6 +154,8 @@ dmp <- ggplot(dsmall, aes(price, cut, color=cut)) +
   geom_point(size = 1) + scale_shape(solid = FALSE) +
   theme_black_clean()
 dmp
+ggsave("img/dmp.png", dmp, width = 4, height = 2.25, unit = "in")
+
 ```
 
 
@@ -153,10 +163,12 @@ dmp
 
 ```{r dist-multiple-point-jitter , echo=FALSE}
 dmpj <- ggplot(dlarge, aes(price, cut, color=cut)) + 
-  geom_point(size = 1, position = position_jitter(w = 0.05)) + 
+  geom_point(size = 2, position = position_jitter(w = 0.05)) + 
   scale_shape(solid = FALSE) +
   theme_black_clean()
 dmpj
+ggsave("img/dmpj.png", dmpj, width = 4, height = 2.25, unit = "in")
+
 ```
 
 ## Distribution - Multiple - Freq Polygon
@@ -166,17 +178,20 @@ dmf <- ggplot(diamonds, aes(price, color = cut)) +
   geom_freqpoly(binwidth = 100) +
   theme_black_clean()
 dmf
+ggsave("img/dmf.png", dmf, width = 4, height = 2.25, unit = "in")
 ```
 
 ## Distribution - Multiple - BoxPlot
 
 ```{r dist-multiple-boxplot , echo=FALSE}
 dmb <- ggplot(diamonds, aes(cut, price, fill = cut)) + 
-  geom_boxplot(outlier.colour = "grey80", 
+  geom_boxplot(outlier.colour = "grey80", color = "orange",
                outlier.size = 1) + 
   ylim(c(0,10000)) +
   theme_black_clean()
 dmb
+ggsave("img/dmb.png", dmb, width = 4, height = 2.25, unit = "in")
+
 ```
 
 
@@ -192,11 +207,12 @@ dmh
 
 ## Distribution - Muliple - Density Plot
 
-```{r dist-single-freqpoly , echo=FALSE}
+```{r dist-multiple-freqpoly , echo=FALSE}
 dmd <- ggplot(diamonds, aes(price, fill = cut)) + 
-  geom_density(alpha = 0.4) +
+  geom_density(alpha = 0.3) +
   theme_black_clean()
 dmd
+ggsave("img/dmd.png", dmd, width = 4, height = 2.25, unit = "in")
 ```
 
 
@@ -226,7 +242,7 @@ ggsave("img/graph12dq.png", graph12dq, width = 8, height = 3)
 dmfs <- ggplot(diamonds, aes(price, color = cut)) + 
   geom_freqpoly(binwidth = 100) +
   facet_wrap( ~ cut) +
-  theme_black()
+  theme_black_clean()
 dmfs
 ```
 
@@ -236,7 +252,7 @@ dmfs
 dmhs <- ggplot(diamonds, aes(price)) + 
   geom_histogram(color =I("orange"), binwidth = 500) +
   facet_wrap( ~ cut) +
-  theme_black()
+  theme_black_clean()
 dmhs
 ```
 
@@ -245,7 +261,7 @@ dmhs
 ```{r dist-multiple-histogram-small-color , echo=FALSE}
 dmhs2 <- ggplot(diamonds, aes(price, fill = clarity)) + 
   geom_histogram(binwidth = 500) + facet_wrap( ~ cut) +
-  theme_black()
+  theme_black_clean()
 dmhs2
 ```
 
@@ -263,14 +279,20 @@ csd <- ggplot(sdiamonds) +
   coord_flip() +
   theme_black_clean()
 csd
+
+ggsave("img/csd.png", csd, width = 4, height = 2.25, unit = "in")
+
 ```
 
 ## Comparison - Single - Bar (csb)
 ```{r comparison-single-bar, echo=FALSE}
-csb <- ggplot(diamonds, aes(cut)) +
+csb <- ggplot(diamonds, aes(clarity)) +
   geom_bar(fill = I("orange"))  +
   theme_black_clean()
 csb
+
+ggsave("img/csb.png", csb, width = 4, height = 2.25, unit = "in")
+
 ```
 
 
@@ -290,7 +312,7 @@ ggsave("img/graph1dc.png", graph1dc, width = 4, height = 1.5)
 ```{r comparison-single-coxcomb, echo=FALSE}
 cmc <- ggplot(diamonds, aes(cut, fill = cut)) +
   geom_bar(width = 1)  +
-  theme_black() + coord_polar()
+  theme_black_clean() + coord_polar()
 cmc 
 ```
 
@@ -298,7 +320,7 @@ cmc
 ```{r comp-single-pie, echo=FALSE}
 psp <- ggplot(diamonds, aes(x = "", fill = cut)) +
   geom_bar(width = 1)   +
-  theme_black() + coord_polar(theta="y")
+  theme_black_clean() + coord_polar(theta="y")
 psp
 ```
 
@@ -307,7 +329,7 @@ psp
 ```{r part-multiple-stacked, echo=FALSE}
 pms <- ggplot(diamonds, aes(x = cut, fill = clarity)) +
   geom_bar(position ="fill")   +
-  theme_black()
+  theme_black_clean()
 pms
 ```
 
@@ -315,7 +337,7 @@ pms
 ```{r part-multiple-donut, echo=FALSE}
 pmd <- ggplot(diamonds, aes(x = cut, fill = clarity)) +
   geom_bar(width = 0.7, position = "fill")   +
-  theme_black() + coord_polar(theta="y")
+  theme_black_clean() + coord_polar(theta="y")
 pmd
 ```
 
@@ -337,35 +359,42 @@ ggMMplot <- function(var1, var2){
     geom_bar(stat = "identity", aes(width = marginVar1, fill = var2), col = "grey80") +
     geom_text(aes(label = as.character(var1), x = var1Center, y = 1.05))}
 
-pmm <- ggMMplot(diamonds$cut, diamonds$clarity) + theme_black() + 
-  xlab("cut") + ylab("clarity")
+pmm <- ggMMplot(diamonds$cut, diamonds$clarity) + theme_black_clean()
+
 pmm
+
+ggsave("img/pmm.png", pmm, width = 4, height = 2.25, unit = "in")
+
+
 ```
 
 ## Comparison - Multiple - Bar (cmb)
 ```{r comparison-multiple-bar, echo=FALSE}
 cmb <- ggplot(diamonds, aes(cut, fill = clarity)) +
   geom_bar(position = "dodge")  +
-  theme_black()
+  theme_black_clean()
 cmb
+ggsave("img/cmb.png", cmb, width = 4, height = 2.25, unit = "in")
+
 ```
-
-
 
 
 ## Correlation - Single - Scatter (cms)
 ```{r corr-single-scatter, echo=FALSE}
 css <- ggplot(dlarge, aes(carat,price)) +
-  geom_point(color = I("orange"), alpha = I(0.8) , size = 3) +
-  theme_black()
+  geom_point(color = I("orange"), alpha = I(0.8) , size = 1) +
+  theme_black_clean()
 css
+
+ggsave("img/css.png", css, width = 4, height = 2.25, unit = "in")
 ```
+
 
 ## Correlation - Multiple - Scatter - Cat (cms)
 ```{r corr-multiple-scatter-cat, echo=FALSE}
 cmsc <- ggplot(dlarge, aes(carat,price, color=cut)) +
-  geom_point( alpha = I(0.8) , size = 3) +
-  theme_black()
+  geom_point( alpha = I(0.8) , size = 2) +
+  theme_black_clean()
 cmsc
 ```
 
@@ -373,106 +402,30 @@ cmsc
 ```{r corr-multiple-scatter, echo=FALSE}
 cms <- ggplot(dlarge, aes(carat,price)) +
   geom_point(color = I("orange"), alpha = I(0.8) , size = 3) +
-  theme_black() + facet_wrap(~cut)
+  theme_black_clean() + facet_wrap(~cut)
 cms
 ```
 
+## Slopegraph - Two variable
+```{r slopegraph, echo=FALSE}
+library(GGally)
+dslope <- subset(dsmall, select = c("carat", "price", "cut"))
+slg <- ggparcoord(data = dslope, columns = 1:2, groupColumn = 3, 
+           order = "anyClass") + theme_black_clean()
 
-## Timeseries - multiple - series (tss)
-```{r time-multiple-series, echo=FALSE}
-devices <- read.csv("~/Dropbox/R/diamonds/devices.csv", 
-                    header = TRUE)
+ggsave("img/slg.png", slg, width = 4, height = 2.25, unit = "in")
 
-tms <- ggplot(devices, aes(year,total, color = type)) +
-  geom_line(size = 2) + scale_x_continuous(breaks=seq(2006,2017,1)) +
-  theme_black() 
-tms
-```
-
-## Timeseries - multiple - area (tma)
-```{r time-multiple-area, echo=FALSE}
-
-tma <- ggplot(devices, aes(year,total, fill = type)) +
-  geom_area() + scale_x_continuous(breaks=seq(2006,2017,1)) +
-  theme_black() 
-tma
-```
-
-## Timeseries - multiple - bar (tmb)
-```{r time-multiple-bar, echo=FALSE}
-
-tmb <- ggplot(devices, aes(year,total, fill = type)) +
-  geom_bar(stat="identity") + scale_x_continuous(breaks=seq(2006,2017,1)) +
-  theme_black() 
-tmb
 ```
 
 
-## Timeseries - multiple - area - fill (tmf)
-```{r time-multiple-area-fill, echo=FALSE}
+## Slopegraph - Two variable
+```{r slopegraph, echo=FALSE}
+library(tabplot)
+tabs <- tableplot(dsmall, sortCol = price, select = c(price, carat), 
+                 numPals = "Oranges", title = NULL, bg="black")
+tableSave(tabs, filename = "img/tablelens.png", width = 16, height = 9,
+           fontsize = 1, legend.lines = 1, 
+          col = "transparent",
+          bg = "black") + opts(panel.background = "transparent")
 
-tmaf <- ggplot(devices, aes(year,total, fill = type)) +
-  geom_area(position = "fill") + 
-  scale_x_continuous(breaks=seq(2006,2017,1)) +
-  theme_black()
-tmaf
 ```
-
-## Timeseries - multiple - bar - fill (tmf)
-```{r time-multiple-bar-fill, echo=FALSE}
-
-tmbf <- ggplot(devices, aes(year,total, fill = type)) +
-  geom_bar(position = "fill", stat="identity") + 
-  scale_x_continuous(breaks=seq(2006,2017,1)) +
-  theme_black()
-tmbf
-```
-
-
-
-
-## Timeseries - multiple - area - dodge (tmf)
-```{r time-multiple-area-dodge, echo=FALSE}
-
-tmad <- ggplot(devices, aes(year,total, fill = type)) +
-  geom_area(position = "dodge", alpha = 0.5) + 
-  scale_x_continuous(breaks=seq(2006,2017,1)) +
-  theme_black()
-tmad
-```
-
-
-## Timeseries - multiple - bar - dodge (tmf)
-```{r time-multiple-bar-dodge, echo=FALSE}
-
-tmbd <- ggplot(devices, aes(year,total, fill = type)) +
-  geom_bar(width = 0.6, position = "dodge", stat="identity") + 
-  scale_x_continuous(breaks=seq(2006,2017,1)) +
-  theme_black()
-tmbd
-```
-
-## Timeseries - multiple - area - facet (tmf)
-```{r time-multiple-area-facet, echo=FALSE}
-
-tmf <- ggplot(devices, aes(year,total, fill = type)) +
-  geom_area() + scale_x_continuous(breaks=seq(2006,2017,1)) +
-  theme_black() + facet_grid(type~.)
-tmf
-```
-
-## Timeseries - multiple - index (tmi)
-```{r time-multiple-index, echo=FALSE}
-
-tmi <- ggplot(devices, aes(year,index, color = type)) +
-  geom_line(size = 2)  +
-  theme_black()
-tmi
-```
-
-## Timeseries - multiple - slopegraph (tmsl)
-```{r time-multiple-slope, echo=FALSE}
-sdevices <- subset(devices, year == c(2010,2017))
-```
-
-
