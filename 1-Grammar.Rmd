@@ -72,7 +72,7 @@ attr(theme_black(), "complete")
 ```
 
 
-## Load the Humble Data
+Load the Humble Data
 ```{r, echo=FALSE}
 areas <- c("N", "E", "W", "S", "C")
 sales <- c(5, 25, 15, 20, 10)
@@ -102,7 +102,7 @@ ggplot(humble, aes(x = "", fill = areas, weight = sales)) +
 
 ```
 
-## Point - Cartesian (pc)
+Point - Cartesian (pc)
 ```{r humble-point, echo=FALSE}
 pc <- ggplot(humble, aes(areas,sales, color = areas)) +
   geom_point(size = 6) +
@@ -111,7 +111,7 @@ pc <- ggplot(humble, aes(areas,sales, color = areas)) +
 pc
 ```
 
-## Line - Cartesian (lc)
+Line - Cartesian (lc)
 ```{r humble-line, echo=FALSE}
 lc <- ggplot(humble, aes(areas, weight = sales, fill = areas)) +
   geom_bar(width = 0.1)  +
@@ -119,7 +119,7 @@ lc <- ggplot(humble, aes(areas, weight = sales, fill = areas)) +
 lc
 ```
 
-## Bar - Cartesian (bc)
+Bar - Cartesian (bc)
 ```{r humble-bar, echo=FALSE}
 bc <- ggplot(humble, aes(areas, weight = sales, fill = areas)) +
   geom_bar()  +
@@ -127,7 +127,7 @@ bc <- ggplot(humble, aes(areas, weight = sales, fill = areas)) +
 bc
 ```
 
-## Bar Stacked - Cartesian (sc)
+Bar Stacked - Cartesian (sc)
 ```{r humble-bar-stacked, echo=FALSE}
 sc <- ggplot(humble, aes(x = "", fill = areas, weight = sales)) +
   geom_bar(width = 0.3)  + xlab("") +
@@ -135,7 +135,7 @@ sc <- ggplot(humble, aes(x = "", fill = areas, weight = sales)) +
 sc
 ```
 
-## Bar Waterfall - Cartesian (wc)
+Bar Waterfall - Cartesian (wc)
 ``` {r humble-bar-waterfall, echo=FALSE}
 wc <- ggplot(humble, aes(areas, fill = areas)) + geom_rect(aes(x = areas,
    xmin = id - 0.5, xmax = id + 0.5, ymin = end_sales, 
@@ -144,101 +144,98 @@ wc <- ggplot(humble, aes(areas, fill = areas)) + geom_rect(aes(x = areas,
 wc
 ```
 
-## Point - Cartesian Flip (pf)
+Point - Cartesian Flip (pf)
 ```{r humble-point-flip, echo=FALSE}
 pf <- pc + coord_flip()
 pf
 ```
 
-## Line - Cartesian Flip (lf)
+Line - Cartesian Flip (lf)
 ```{r humble-line-flip, echo=FALSE}
 lf <- lc + coord_flip()
 lf
 ```
 
-## Bar - Cartesian Flip (bf)
+Bar - Cartesian Flip (bf)
 ```{r humble-bar-flip, echo=FALSE}
 bf <- bc + coord_flip()
 bf
 ```
 
-## Bar Stacked - Cartesian Flip (sf)
+Bar Stacked - Cartesian Flip (sf)
 ```{r humble-bar-stacked-flip, echo=FALSE}
 sf <- sc + geom_bar(width = 0.3) + coord_flip()
 sf
 ```
 
-## Bar Waterfall - Cartesian Flip (wf)
+Bar Waterfall - Cartesian Flip (wf)
 ``` {r humble-bar-waterfall-flip, echo=FALSE}
 wf <- wc + coord_flip()
 wf
 ```
 
-
-
-## Point - Polar - x (ppx)
+Point - Polar - x (ppx)
 ```{r humble-point-polar-x, echo=FALSE}
 ppx <- pc + coord_polar(theta = "x")
 ppx
 ```
 
-## Line - Polar -x (lpx)
+Line - Polar -x (lpx)
 ```{r humble-line-polar-x, echo=FALSE}
 lpx <- lc + coord_polar(theta ="x")
 lpx
 ```
 
-## Bar - Polar - x (bpx)
+Bar - Polar - x (bpx)
 ```{r humble-bar-polar-x, echo=FALSE}
 bpx <- bc + geom_bar(width=1) + coord_polar(theta ="x")
 bpx
 ```
 
-## Bar Stacked - Polar - x (spx)
+Bar Stacked - Polar - x (spx)
 ```{r humble-bar-stacked-polar-x, echo=FALSE}
 spx <- sc + geom_bar(width = 1) + coord_polar(theta ="x")
 spx
 ```
 
-## Bar Waterfall - Polar - x (wpx)
+Bar Waterfall - Polar - x (wpx)
 ``` {r humble-bar-waterfall-polar-x, echo=FALSE}
 wpx <- wc + coord_polar(theta ="x")
 wpx
 ```
 
-
-## Point - Polar - y (ppy)
+Point - Polar - y (ppy)
 ```{r humble-point-polar-y, echo=FALSE}
 ppy <- pc + coord_polar(theta ="y")
 ppy
 ```
 
-## Line - Polar -y (lpy)
+Line - Polar -y (lpy)
 ```{r humble-line-polar-y, echo=FALSE}
 lpy <- lc + coord_polar(theta ="y")
 lpy
 ```
 
-## Bar - Polar - y (bpy)
+Bar - Polar - y (bpy)
 ```{r humble-bar-polar-y, echo=FALSE}
 bpy <- bc + geom_bar(width=1) + coord_polar(theta ="y")
 bpy
 ```
 
-## Bar Stacked - Polar - y (spy)
+Bar Stacked - Polar - y (spy)
 ```{r humble-bar-stacked-polar-y, echo=FALSE}
 spy <- sc + geom_bar(width = 1) + coord_polar(theta ="y")
 spy
 ```
 
-## Bar Waterfall - Polar - y (wpy)
+Bar Waterfall - Polar - y (wpy)
 ``` {r humble-bar-waterfall-polar-y, echo=FALSE}
 wpy <- wc + coord_polar(theta ="y")
 wpy
 ```
 
 
-## Plot - Grid  
+Plot - Grid  
 ```{r humble-plots, echo=FALSE}
 
 humble_plots_cart <- arrangeGrob(pc, lc, bc, sc, wc,

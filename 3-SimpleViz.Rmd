@@ -74,7 +74,7 @@ attr(theme_black_clean(), "complete")
 
 ```
 
-## Distribution - Single - Point
+Distribution - Single - Point
 
 ```{r dist-single-point , echo=FALSE}
 dsp <- ggplot(dsmall, aes("price", price)) + 
@@ -86,7 +86,7 @@ ggsave("img/dsp.png", dsp, width = 4, height = 2.25, unit = "in")
 ```
 
 
-## Distribution - Single - Point - Jitter
+Distribution - Single - Point - Jitter
 
 ```{r dist-single-point-jitter , echo=FALSE}
 dspj <- ggplot(dsmall, aes("price", price)) + 
@@ -100,7 +100,7 @@ ggsave("img/dspj.png", dspj, width = 4, height = 2.25, unit = "in")
 ```
 
 
-## Distribution - Single - Histogram
+Distribution - Single - Histogram
 
 ```{r dist-single-histogram , echo=FALSE}
 dsh <- ggplot(diamonds, aes(price)) + 
@@ -112,7 +112,7 @@ ggsave("img/dsh.png", dsh, width = 4, height = 2.25, unit = "in")
 ```
 
 
-## Distribution - Single - Freq Polygon
+Distribution - Single - Freq Polygon
 
 ```{r dist-single-freqpoly , echo=FALSE}
 dsf <- ggplot(diamonds, aes(price)) + 
@@ -124,7 +124,7 @@ ggsave("img/dsf.png", dsf, width = 4, height = 2.25, unit = "in")
 ```
 
 
-## Distribution - Single - Density Plot
+Distribution - Single - Density Plot
 
 ```{r dist-single-freqpoly , echo=FALSE}
 dsd <- ggplot(diamonds, aes(price)) + 
@@ -147,7 +147,7 @@ ggsave("img/graph1dq.png", graph1dq, width = 8, height = 1.5)
 ```
 
 
-## Distribution - Multiple - Point
+Distribution - Multiple - Point
 
 ```{r dist-multiple-point , echo=FALSE}
 dmp <- ggplot(dsmall, aes(price, cut, color=cut)) + 
@@ -159,7 +159,7 @@ ggsave("img/dmp.png", dmp, width = 4, height = 2.25, unit = "in")
 ```
 
 
-## Distribution - Multiple - Point - Jitter
+Distribution - Multiple - Point - Jitter
 
 ```{r dist-multiple-point-jitter , echo=FALSE}
 dmpj <- ggplot(dlarge, aes(price, cut, color=cut)) + 
@@ -171,7 +171,7 @@ ggsave("img/dmpj.png", dmpj, width = 4, height = 2.25, unit = "in")
 
 ```
 
-## Distribution - Multiple - Freq Polygon
+Distribution - Multiple - Freq Polygon
 
 ```{r dist-multiple-freqpoly , echo=FALSE}
 dmf <- ggplot(diamonds, aes(price, color = cut)) + 
@@ -181,7 +181,7 @@ dmf
 ggsave("img/dmf.png", dmf, width = 4, height = 2.25, unit = "in")
 ```
 
-## Distribution - Multiple - BoxPlot
+Distribution - Multiple - BoxPlot
 
 ```{r dist-multiple-boxplot , echo=FALSE}
 dmb <- ggplot(diamonds, aes(cut, price, fill = cut)) + 
@@ -195,7 +195,7 @@ ggsave("img/dmb.png", dmb, width = 4, height = 2.25, unit = "in")
 ```
 
 
-## Distribution - Multiple - Histogram
+Distribution - Multiple - Histogram
 
 ```{r dist-multiple-histogram , echo=FALSE}
 dmh <- ggplot(diamonds, aes(price, fill = cut)) + 
@@ -205,7 +205,7 @@ dmh
 ```
 
 
-## Distribution - Muliple - Density Plot
+Distribution - Muliple - Density Plot
 
 ```{r dist-multiple-freqpoly , echo=FALSE}
 dmd <- ggplot(diamonds, aes(price, fill = cut)) + 
@@ -236,7 +236,7 @@ ggsave("img/graph12dq.png", graph12dq, width = 8, height = 3)
 
 
 
-## Distribution - Multiple - Freq Polygon - Small Multiples
+Distribution - Multiple - Freq Polygon - Small Multiples
 
 ```{r dist-multiple-freqpoly-small , echo=FALSE}
 dmfs <- ggplot(diamonds, aes(price, color = cut)) + 
@@ -246,7 +246,7 @@ dmfs <- ggplot(diamonds, aes(price, color = cut)) +
 dmfs
 ```
 
-## Distribution - Multiple - Histogram - Small Multiples
+Distribution - Multiple - Histogram - Small Multiples
 
 ```{r dist-multiple-histogram-small , echo=FALSE}
 dmhs <- ggplot(diamonds, aes(price)) + 
@@ -256,7 +256,7 @@ dmhs <- ggplot(diamonds, aes(price)) +
 dmhs
 ```
 
-## Distribution - Multiple - Histogram - Small Multiples - Cut
+Distribution - Multiple - Histogram - Small Multiples - Cut
 
 ```{r dist-multiple-histogram-small-color , echo=FALSE}
 dmhs2 <- ggplot(diamonds, aes(price, fill = clarity)) + 
@@ -268,7 +268,7 @@ dmhs2
 
 
 
-## Comparison - Single - DotPlot
+Comparison - Single - DotPlot
 
 ```{r comp-single-dot , echo=FALSE}
 sdiamonds <- transform(diamonds, cut=reorder(cut, 
@@ -284,7 +284,7 @@ ggsave("img/csd.png", csd, width = 4, height = 2.25, unit = "in")
 
 ```
 
-## Comparison - Single - Bar (csb)
+Comparison - Single - Bar (csb)
 ```{r comparison-single-bar, echo=FALSE}
 csb <- ggplot(diamonds, aes(clarity)) +
   geom_bar(fill = I("orange"))  +
@@ -308,7 +308,7 @@ ggsave("img/graph1dc.png", graph1dc, width = 4, height = 1.5)
 ```
 
 
-## Comparison - Single - CoxComb (cmc)
+Comparison - Single - CoxComb (cmc)
 ```{r comparison-single-coxcomb, echo=FALSE}
 cmc <- ggplot(diamonds, aes(cut, fill = cut)) +
   geom_bar(width = 1)  +
@@ -316,7 +316,7 @@ cmc <- ggplot(diamonds, aes(cut, fill = cut)) +
 cmc 
 ```
 
-## Part-to-Whole - Single - Pie (pmp)
+Part-to-Whole - Single - Pie (pmp)
 ```{r comp-single-pie, echo=FALSE}
 psp <- ggplot(diamonds, aes(x = "", fill = cut)) +
   geom_bar(width = 1)   +
@@ -325,7 +325,7 @@ psp
 ```
 
 
-## Part-to-Whole - Multiple - Bar Stacked (pms)
+Part-to-Whole - Multiple - Bar Stacked (pms)
 ```{r part-multiple-stacked, echo=FALSE}
 pms <- ggplot(diamonds, aes(x = cut, fill = clarity)) +
   geom_bar(position ="fill")   +
@@ -333,7 +333,7 @@ pms <- ggplot(diamonds, aes(x = cut, fill = clarity)) +
 pms
 ```
 
-## Part-to-Whole - Multiple - Donuts (pmd)
+Part-to-Whole - Multiple - Donuts (pmd)
 ```{r part-multiple-donut, echo=FALSE}
 pmd <- ggplot(diamonds, aes(x = cut, fill = clarity)) +
   geom_bar(width = 0.7, position = "fill")   +
@@ -341,7 +341,7 @@ pmd <- ggplot(diamonds, aes(x = cut, fill = clarity)) +
 pmd
 ```
 
-## Part-to-Whole - Multiple - Mosaic (pmm)
+Part-to-Whole - Multiple - Mosaic (pmm)
 ```{r part-multiple-mosiac, echo=FALSE}
 ggMMplot <- function(var1, var2){
   require(ggplot2)
@@ -368,7 +368,7 @@ ggsave("img/pmm.png", pmm, width = 4, height = 2.25, unit = "in")
 
 ```
 
-## Comparison - Multiple - Bar (cmb)
+Comparison - Multiple - Bar (cmb)
 ```{r comparison-multiple-bar, echo=FALSE}
 cmb <- ggplot(diamonds, aes(cut, fill = clarity)) +
   geom_bar(position = "dodge")  +
@@ -379,7 +379,7 @@ ggsave("img/cmb.png", cmb, width = 4, height = 2.25, unit = "in")
 ```
 
 
-## Correlation - Single - Scatter (cms)
+Correlation - Single - Scatter (cms)
 ```{r corr-single-scatter, echo=FALSE}
 css <- ggplot(dlarge, aes(carat,price)) +
   geom_point(color = I("orange"), alpha = I(0.8) , size = 1) +
@@ -390,7 +390,7 @@ ggsave("img/css.png", css, width = 4, height = 2.25, unit = "in")
 ```
 
 
-## Correlation - Multiple - Scatter - Cat (cms)
+Correlation - Multiple - Scatter - Cat (cms)
 ```{r corr-multiple-scatter-cat, echo=FALSE}
 cmsc <- ggplot(dlarge, aes(carat,price, color=cut)) +
   geom_point( alpha = I(0.8) , size = 2) +
@@ -398,7 +398,7 @@ cmsc <- ggplot(dlarge, aes(carat,price, color=cut)) +
 cmsc
 ```
 
-## Correlation - Multiple - Scatter (cms)
+Correlation - Multiple - Scatter (cms)
 ```{r corr-multiple-scatter, echo=FALSE}
 cms <- ggplot(dlarge, aes(carat,price)) +
   geom_point(color = I("orange"), alpha = I(0.8) , size = 3) +
@@ -406,7 +406,7 @@ cms <- ggplot(dlarge, aes(carat,price)) +
 cms
 ```
 
-## Slopegraph - Two variable
+Slopegraph - Two variable
 ```{r slopegraph, echo=FALSE}
 library(GGally)
 dslope <- subset(dsmall, select = c("carat", "price", "cut"))
@@ -418,7 +418,7 @@ ggsave("img/slg.png", slg, width = 4, height = 2.25, unit = "in")
 ```
 
 
-## Slopegraph - Two variable
+Slopegraph - Two variable
 ```{r slopegraph, echo=FALSE}
 library(tabplot)
 tabs <- tableplot(dsmall, sortCol = price, select = c(price, carat), 

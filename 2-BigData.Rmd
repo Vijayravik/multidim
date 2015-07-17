@@ -72,14 +72,14 @@ attr(theme_black(), "complete")
 
 ```
 
-## Create the Biggish Data 
+Create the Biggish Data 
 ```{r, echo=FALSE}
 x <- rnorm(1000000, mean=0, sd=2)
 y <- rnorm(1000000, mean=0, sd=2)
 xy <- data.frame(x,y)
 ```
 
-## Plot Data, Sample, Model, Binning
+Plot Data, Sample, Model, Binning
 
 ```{r}
 # All the Data
@@ -119,7 +119,7 @@ graphBig
 ggsave("img/bigdataviz.png", graphBig, width = 10, height = 10)
 ```
 
-## Take another sample from bigvis package
+Take another sample from bigvis package
 
 ```{r}
 library(bigvis)
