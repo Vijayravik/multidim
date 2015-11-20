@@ -94,12 +94,13 @@ dfUniquePin <- df %>%
              tally() %>%
              ungroup()
 
+par(bg = "black")
 pinmapUnique <- ggplot(dfUniquePin) + aes(lat,lon) + 
   geom_point(color = "orange", alpha = 0.3, size = 1.5) +
   coord_equal() + theme_black_map()
 pinmapUnique
 
-ggsave("img/pinmapUnique.png", pinmapUnique, width = 9, height = 9)
+ggsave("img/pinmapUnique.png", pinmapUnique, width = 8.4, height = 9)
 ```
 
 Lets create the pincode map for each unique starter state
@@ -117,8 +118,54 @@ pinmapUniqueStart <- ggplot(dfUniquePin) + aes(lat,lon, color = start) +
 pinmapUniqueStart
 
 ggsave("img/pinmapUniqueStart.png", pinmapUniqueStart, 
-       width = 9, height = 9)
+       width = 8.4, height = 9)
+```
+
+Color them using Saturation
+```{r}
+# Add Code Market
+
+pinmapUniqueStartSat <- ggplot(dfUniquePin) + 
+  aes(lat,lon, color = start) + 
+  scale_color_brewer("start", palette = "Reds") +
+  geom_point(alpha = 0.3, size = 1.5) +
+  coord_equal() + theme_black_map()
+pinmapUniqueStartSat
+
+ggsave("img/pinmapUniqueStartSat.png", pinmapUniqueStartSat, 
+       width = 8.4, height = 9)
 ```
 
 
+Create Chloroplethe
+``` {r map-choro}
+library(choroplethr)
+str(df_state_demographics)
+
+library(maps)
+map("state")
+states <- map_data("state")
+choro <- merge(states, df_state_demographics, sort = FALSE, by = "region")
+
+choroBad <- ggplot(choro) + 
+  aes(long, lat, group = group, fill = region) +
+  geom_polygon(linetype = 2, linewidth = 10, color = "black") + 
+  coord_map() + theme_black() + 
+  theme ( legend.position = "none",
+         axis.line = element_blank() 
+         )
+choroBad
+
+choroBad <- ggplot(choro) + 
+  aes(long, lat, group = group, fill = region) +
+  geom_polygon(linewidth = 12, color = "grey") + 
+  coord_map() + theme_black() + 
+  scale_fill_brewer("region", palette = "Set1") +
+  theme ( legend.position = "right",
+         axis.line = element_blank() 
+         )
+choroBad
+
+ggsave(choroBad, "img/choroBad"), 
+       width = 16, height = 9)
 
