@@ -1,12 +1,11 @@
-# multidim
-Visualising Multi Dimensional Data
+# Visualising Multi Dimensional Data
 
-This is repository for the talk given in 2015 at the Strata + Hadoop Conference @ Singapore and the Fifth Elephant Conference @ Bangalore and the
+This is repository for the talks given in 2015 on this topic at the Strata + Hadoop World Conference @ Singapore and the Fifth Elephant Conference @ Bangalore
 
-Details @ Strata + Hadoop Conference
+Details @ Strata + Hadoop Conference @ Singapore - Dec 2015
 http://conferences.oreilly.com/strata/big-data-conference-sg-2015/public/schedule/detail/45041
 
-Details @ Hasgeek Funnel
+Details @ Fifth Elephant Conference @ Bangalore - July 2015
 https://fifthelephant.talkfunnel.com/2015/11-visualising-multi-dimensional-data
 
 Slides @ Slideshare http://www.slideshare.net/amitkaps/visualising-multi-dimensional-data-fifth-elephant-talk
