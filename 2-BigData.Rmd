@@ -19,9 +19,10 @@ theme_black <- function(base_size = 16, base_family = "Helvetica") {
     rect =  element_rect(fill = "white", colour = "black", size = 0.5, linetype = 1),
     text =  element_text(family = base_family, face = "plain",
                   colour = "black", size = base_size,
+                  margin = margin(), debug = FALSE,
                   hjust = 0.5, vjust = 0.5, angle = 0, lineheight = 0.9),
     
-    axis.text =          element_text(size = rel(0.8), colour = "grey70"),
+    axis.text =          element_text(size = rel(1), colour = "grey70"),
     strip.text =         element_text(size = rel(0.8), colour = "grey70"),
 
     axis.line =          element_line(colour = "grey70"),
@@ -34,7 +35,7 @@ theme_black <- function(base_size = 16, base_family = "Helvetica") {
   # axis.title.x =       element_text(vjust = 1),
   # axis.title.y =       element_text(angle = 90),
     axis.ticks.length =  unit(0.3, "lines"),
-    axis.ticks.margin =  unit(0.5, "lines"),
+  # axis.ticks.margin =  unit(0.5, "lines"),
 
     legend.background =  element_rect(fill = 'black'),
     legend.margin =      unit(0.2, "cm"),
@@ -125,15 +126,94 @@ Take another sample from bigvis package
 library(bigvis)
 library(ggplot2)
 
+## 
+theme_black_plus <- theme_black() + 
+  theme(axis.text = element_text(size = rel(1.5)),
+        axis.title.x = element_text(size = rel(1.5)),
+        axis.title.y = element_text(size = rel(1.5)),
+        legend.position = "right"
+        )
+```
+
+
+
+Bigvis of small data - diamonds
+``` {r}
+
+dp <- ggplot(diamonds) + aes(carat, price) +
+      geom_point(alpha = 0.2, colour = "orange") +
+      theme_black_plus  
+dp
+
+ggsave(dp, file="img/diamonds.png",
+       width = 16, height = 7 )
+
+
+Nbin <- 20
+BinData <- with(diamonds,
+            condense( bin(carat,find_width(carat, Nbin)),
+                      bin(price,find_width(price, Nbin))))
+
+dpc <- ggplot(data=diamondsBinData) + 
+      aes(carat, price, fill=.count) +
+      geom_tile() + theme_black_plus + 
+      scale_fill_gradient( space="Lab",na.value = "black")
+dpc
+
+ggsave(dpc, file="img/diamondsbin.png",
+       width = 16, height = 7 )
+
+
+dpcp <- dpc + geom_point(data = diamonds, aes(fill = NULL), 
+                    alpha = 0.2, colour = "orange")
+dpcp
+
+ggsave(dpcp, file="img/diamondsbinpoint.png",
+       width = 16, height = 7 )
+
+```
+
+
+
+Multiple Variable
+```{r}
+mp <- ggplot(movies) + aes(length, rating) +
+      geom_point(alpha = 0.2, colour = "orange") +
+      theme_black_plus  
+mp
+
+ggsave(mp, file="img/movies.png",
+       width = 16, height = 7 )
+
+library(dplyr)
+mps <- movies %>%
+       select(title, length, rating) %>%
+       filter(length > 1000) %>%
+       arrange(desc(length))
+mps
+
 Nbin <- 1e4
-binData <- with(movies, condense(bin(length, find_width(length, Nbin)),
-                                 bin(rating, find_width(rating, Nbin))))
+binData <- with(movies, condense(bin(length, find_width(length, Nbin)), bin(rating, find_width(rating, Nbin))))
+
 mplot <- ggplot(binData) + aes(length, rating, fill= .count) +
-  geom_tile() + theme_black()
+  geom_tile() + theme_black_plus
 mplot
 
+ggsave(mplot, file="img/moviesbin.png",
+       width = 16, height = 7 )
+
 # Remove outliers
-mplot %+% peel(binData)
+mplotOut <- mplot %+% peel(binData)
+mplotOut
+ggsave(mplotOut, file="img/moviesbinOut.png",
+       width = 16, height = 7 )
+
+## 
+smoothBinData <- smooth(peel(binData), h=c(20, 1))
+smplotOut <- autoplot(smoothBinData) + theme_black_plus
+
+ggsave(smplotOut, file="img/moviesbinOutSmooth.png",
+       width = 16, height = 7 )
 
 ```
 

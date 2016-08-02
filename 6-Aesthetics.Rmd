@@ -11,6 +11,7 @@ knitr::opts_chunk$set(cache=TRUE)
 library(grid)
 library(ggplot2)
 library(gridExtra)
+library(xkcd)
 
 theme_black <- function(base_size = 16, base_family = "Helvetica") {
     theme(
@@ -18,7 +19,8 @@ theme_black <- function(base_size = 16, base_family = "Helvetica") {
                             lineend = "butt"),
     rect =  element_rect(fill = "white", colour = "black", size = 0.5, linetype = 1),
     text =  element_text(family = base_family, face = "plain",
-                  colour = "black", size = base_size,
+                  colour = "black", size = base_size, 
+                  margin = margin(), debug = FALSE,
                   hjust = 0.5, vjust = 0.5, angle = 0, lineheight = 0.9),
     
     axis.text =          element_text(size = rel(0.8), colour = "grey70"),
@@ -34,7 +36,7 @@ theme_black <- function(base_size = 16, base_family = "Helvetica") {
   # axis.title.x =       element_text(vjust = 1),
   # axis.title.y =       element_text(angle = 90),
     axis.ticks.length =  unit(0.3, "lines"),
-    axis.ticks.margin =  unit(0.5, "lines"),
+  #  axis.ticks.margin =  unit(0.5, "lines"),
 
     legend.background =  element_rect(fill = 'black'),
     legend.margin =      unit(0.2, "cm"),
@@ -69,7 +71,6 @@ theme_black <- function(base_size = 16, base_family = "Helvetica") {
   )
 }
 attr(theme_black(), "complete")
-
 ```
 
 Load the Humble Data
@@ -80,13 +81,11 @@ profit <- c(2, 8, 6, 5, 3)
 humble <- data.frame(areas, sales, profit)
 humble$areas <-ordered(humble$areas, levels=c("N", "E", "W", "S", "C"))
 humble
-humble.base <-humble
 
 # For maps
 lat <- c(0, 1, -1, 0, 0)
 long <- c(1, 0, 0, -1, 0)
-humble.map <- data.frame(areas, sales, profit, lat, long)
-
+humble <- data.frame(areas, sales, profit, lat, long)
 
 # For the Waterfall Chart
 humble$id <- seq_along(humble$areas)
@@ -95,10 +94,62 @@ humble$start_sales <- c(0, head(humble$end_sales, -1))
 humble$end_profit <- cumsum(humble$sales)
 humble$start_profit <- c(0, head(humble$end_profit, -1))
 humble
+```
 
-ggplot(humble, aes(x = "", fill = areas, weight = sales)) +
-  geom_bar(width = 1)  + coord_polar("y") 
 
+Make Charts
+```{r}
+
+Bars
+
+ggplot() + aes(areas, weight = sales, fill = profit) +
+  geom_bar(width = 1) + theme_minimal()
+
+ggplot() + aes(areas, weight = sales, fill = profit) +
+  geom_bar(width = 1) + theme_black() + coord_polar()
+
+ggplot() + aes(x = lon, y = long, weight = sales, fill = profit) +
+  geom_tile(width = 1) + theme_black() + coord_map(lat, lon)
+
+## Bar Waterfall
+ggplot() + xkcdrect(data = humble, aes(
+   xmin = id - 0.5, xmax = id + 0.5, ymin = end_sales, 
+   ymax = start_sales, fill = profit)) + theme_void() + 
+  theme(legend.position = 'none')
+
+ggsave
+
+## CoxComb
+ggplot() + xkcdrect(data = humble, aes(
+  xmin = id - 0.5, xmax = id + 0.5, ymin = 0, 
+  ymax = sales, fill = I("red"))) + 
+  xkcdrect(data = humble, aes(
+  xmin = id - 0.5, xmax = id + 0.5, ymin = 0, 
+  ymax = profit, fill = I("green"))) + 
+  coord_polar() +
+  theme_void() + 
+  theme(legend.position = 'none')
+
+## Geo Map
+ggplot() + xkcdrect(data = humble, aes(
+  xmin = id - 0.5, xmax = id + 0.5, ymin = 0, 
+  ymax = sales, fill = profit)) + coord_map() +
+  theme_void() + 
+  theme(legend.position = 'none')
+
+
+```
+
+Using Bars to make chart
+```{r bar}
+bar <- ggplot(humble, aes(areas, fill = profit)) + geom_rect(aes(x = areas,
+   xmin = id - 0.5, xmax = id + 0.5, ymin = end_sales, 
+   ymax = start_sales, color = profit)) + theme_void() +
+   theme(legend.key = element_blank()) 
+bar
+
+ggsave(bar, file="img/aesbar.png",
+       width = 12, height = 8.5 )
 
 ```
 
@@ -118,11 +169,8 @@ barBad <- ggplot(humble, aes(areas, weight = sales, fill = areas)) +
         axis.title.y = element_blank()
         )
 barBad
-
-ggsave(barBad, file="img/barBad.png",
-       width = 12, height = 8.5 )
-
 ```
+
 
 ```{r bar-good }
 
